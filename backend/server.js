@@ -8,7 +8,7 @@ const { errorHandler } = require('./middleware/errorHandler');
 
 const app = express();
 
-const allowedOrigins = (process.env.FRONTEND_ORIGIN || 'http://localhost:5173')
+const allowedOrigins = (process.env.FRONTEND_ORIGIN || 'https://deepthought-trinethra.vercel.app')
     .split(',')
     .map((origin) => origin.trim())
     .filter(Boolean);
