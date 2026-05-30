@@ -1,9 +1,10 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('express').json;
 const routes = require('./routes/analyze');
 const { errorHandler } = require('./middleware/errorHandler');
-require('dotenv').config();
+
 
 const app = express();
 
