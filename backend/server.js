@@ -8,28 +8,7 @@ const { errorHandler } = require('./middleware/errorHandler');
 
 const app = express();
 
-const allowedOrigins = (process.env.FRONTEND_ORIGIN || 'https://deepthought-trinethra.vercel.app')
-    .split(',')
-    .map((origin) => origin.trim())
-    .filter(Boolean);
-
-function corsOrigin(origin, callback) {
-    if (!origin) {
-        return callback(null, true);
-    }
-
-    if (allowedOrigins.includes('*') || allowedOrigins.includes(origin)) {
-        return callback(null, true);
-    }
-
-    return callback(new Error(`CORS blocked for origin ${origin}`));
-}
-
-app.use(
-    cors({
-        origin: corsOrigin,
-    })
-);
+app.use(cors());
 app.use(bodyParser({ limit: '5mb' }));
 
 app.use('/api/analyze', routes);
