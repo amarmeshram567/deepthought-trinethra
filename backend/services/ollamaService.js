@@ -182,6 +182,12 @@ function normalizeAnalysis(rawOutput) {
 }
 
 async function callOllama(payload) {
+  if (process.env.VERCEL && /^(https?:\/\/)?(127\.0\.0\.1|localhost|0\.0\.0\.0)(:\d+)?/i.test(OLLAMA_URL)) {
+    throw new Error(
+      'OLLAMA_URL is still set to a local address. Vercel cannot reach local Ollama, so set OLLAMA_URL to a publicly reachable endpoint or run this backend on a host that can reach Ollama.'
+    );
+  }
+
   try {
     const resp = await axios.post(OLLAMA_URL, payload, {
       headers: { 'Content-Type': 'application/json' },

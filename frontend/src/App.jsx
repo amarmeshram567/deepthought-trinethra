@@ -14,7 +14,7 @@ import rubricData from "./data/rubric.json";
 import sampleData from "./data/sample-transcripts.json";
 
 const SAMPLE_LIST = Array.isArray(sampleData?.transcripts) ? sampleData.transcripts : [];
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:4000";
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "https://deepthought-trinethra-services.vercel.app";
 
 function App() {
   const [transcript, setTranscript] = useState("");

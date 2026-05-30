@@ -32,15 +32,23 @@ app.use(
 );
 app.use(bodyParser({ limit: '5mb' }));
 
-app.get('/', (req, res) => {
-    res.send('Trinethra backend is running');
-});
-
 app.use('/api/analyze', routes);
+
+app.get('/', (_req, res) => {
+    res.status(200).json({
+        ok: true,
+        service: 'trinethra-backend',
+        message: 'Backend is running. Use POST /api/analyze for transcript analysis.',
+    });
+});
 
 app.use(errorHandler);
 
-const PORT = process.env.PORT || 4000;
-app.listen(PORT, () => {
-    console.log(`Trinethra backend listening on port ${PORT}`);
-});
+if (require.main === module && !process.env.VERCEL) {
+    const PORT = process.env.PORT || 4000;
+    app.listen(PORT, () => {
+        console.log(`Trinethra backend listening on port ${PORT}`);
+    });
+}
+
+module.exports = app;
