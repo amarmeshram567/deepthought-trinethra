@@ -32,6 +32,10 @@ app.use(
 );
 app.use(bodyParser({ limit: '5mb' }));
 
+app.get('/', (req, res) => {
+    res.send('Trinethra backend is running');
+});
+
 app.use('/api/analyze', routes);
 
 app.use(errorHandler);
