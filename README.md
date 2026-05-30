@@ -154,7 +154,7 @@ This repository is set up to be deployed as two Vercel projects:
 - Framework preset: Vite
 - Build command: `npm run build`
 - Output directory: `dist`
-- Environment variable: `VITE_API_BASE_URL=https://<your-backend-project>.vercel.app`
+- Environment variable: `VITE_API_BASE_URL=http://localhost:5173/`
 
 ### Backend project
 
