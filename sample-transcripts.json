@@ -1,0 +1,20 @@
+[
+  {
+    "id": "supportive-mixed",
+    "title": "Supportive but mixed",
+    "tone": "mixed",
+    "transcript": "Supervisor: You did a good job keeping the client updated, and the team appreciated your collaboration. I do want you to flag risks earlier and make your weekly updates more consistent. Your documentation has improved a lot this month."
+  },
+  {
+    "id": "high-growth",
+    "title": "High growth area",
+    "tone": "constructive",
+    "transcript": "Supervisor: You are responsive and eager to learn, but I still need to see stronger ownership when work gets blocked. Please bring issues up sooner and connect your tasks to the larger system, not just the immediate request."
+  },
+  {
+    "id": "strong-performer",
+    "title": "Strong performer",
+    "tone": "positive",
+    "transcript": "Supervisor: Your preparation was excellent, your handoff notes were detailed, and your follow-through made the project smoother for everyone. I would like you to keep sharing progress updates more proactively with the rest of the team."
+  }
+]

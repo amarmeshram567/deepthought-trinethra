@@ -1,0 +1,45 @@
+{
+  "fellow_model": "Fellow review draft",
+  "kpis": [
+    {
+      "name": "Stakeholder communication",
+      "definition": "Clarity, timeliness, and usefulness of updates to supervisors and team members."
+    },
+    {
+      "name": "Ownership and accountability",
+      "definition": "Whether the Fellow takes responsibility for follow-through, escalation, and outcomes."
+    },
+    {
+      "name": "Risk anticipation",
+      "definition": "Ability to identify risks early and bring them up before they become issues."
+    },
+    {
+      "name": "Execution reliability",
+      "definition": "Consistency in delivery, documentation, and action planning."
+    },
+    {
+      "name": "Systems thinking",
+      "definition": "Evidence of understanding workflows, dependencies, and long-term process impact."
+    },
+    {
+      "name": "Collaboration",
+      "definition": "How well the Fellow works with teammates, peers, and cross-functional partners."
+    },
+    {
+      "name": "Learning agility",
+      "definition": "Openness to feedback, adaptation, and improvement over time."
+    },
+    {
+      "name": "Impact orientation",
+      "definition": "Reference to outcomes, business value, or measurable contribution."
+    }
+  ],
+  "assessment_dimensions": [
+    "Communication",
+    "Ownership",
+    "Problem solving",
+    "Team impact",
+    "Systems building",
+    "Growth mindset"
+  ]
+}
