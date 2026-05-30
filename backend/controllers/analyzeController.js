@@ -22,6 +22,8 @@ async function analyze(req, res, next) {
     try {
         const result = await buildAnalysisResponse(req.body?.transcript);
         res.json({ ok: true, data: result });
+
+        console.log('Analysis result:', result);
     } catch (err) {
         next(err);
     }

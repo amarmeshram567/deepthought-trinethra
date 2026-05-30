@@ -8,6 +8,7 @@ import {
   Target,
   TriangleAlert,
 } from "lucide-react";
+import { Toaster, toast } from "react-hot-toast";
 import EvidenceCard from "./components/analysis/EvidenceCard";
 import ScoreCard from "./components/analysis/ScoreCard";
 import rubricData from "./data/rubric.json";
@@ -25,7 +26,6 @@ function App() {
   const [draftState, setDraftState] = useState("draft");
   const [selectedSampleId, setSelectedSampleId] = useState(SAMPLE_LIST[0]?.id || "");
   const [selectedSample, setSelectedSample] = useState(SAMPLE_LIST[0] || null);
-  const [toasts, setToasts] = useState([]);
 
   const wordCount = useMemo(() => {
     const trimmed = transcript.trim();
@@ -34,19 +34,31 @@ function App() {
 
   const currentAnalysis = useMemo(() => normalizeAnalysis(analysis), [analysis]);
 
-  const pushToast = (message, tone = "default") => {
-    const id = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
-    setToasts((currentToasts) => [...currentToasts, { id, message, tone }]);
+  const notify = (message, tone = "default") => {
+    if (tone === "success") {
+      toast.success(message);
+      return;
+    }
 
-    window.setTimeout(() => {
-      setToasts((currentToasts) => currentToasts.filter((toast) => toast.id !== id));
-    }, 2600);
+    if (tone === "warning") {
+      toast(message, {
+        icon: "⚠️",
+      });
+      return;
+    }
+
+    if (tone === "error") {
+      toast.error(message);
+      return;
+    }
+
+    toast(message);
   };
 
   const loadSample = () => {
     const sample = SAMPLE_LIST.find((item) => item.id === selectedSampleId) || SAMPLE_LIST[0];
     if (!sample) {
-      pushToast("No sample transcripts were found.", "error");
+      notify("No sample transcripts were found.", "error");
       return;
     }
 
@@ -57,14 +69,14 @@ function App() {
     setError("");
     setDraftState("draft");
     setActiveTab("score");
-    pushToast(`Loaded ${sampleLabel(sample)}.`, "success");
+    notify(`Loaded ${sampleLabel(sample)}.`, "success");
   };
 
   const runAnalysis = async () => {
     const trimmed = transcript.trim();
     if (!trimmed) {
       setError("Paste a transcript before running analysis.");
-      pushToast("Paste a transcript first.", "warning");
+      notify("Paste a transcript first.", "warning");
       return;
     }
 
@@ -92,7 +104,7 @@ function App() {
       setStatus("done");
       setDraftState("draft");
       setActiveTab("score");
-      pushToast("Analysis completed from the backend.", "success");
+      notify("Analysis completed from the backend.", "success");
     } catch (requestError) {
       setError(
         requestError instanceof Error
@@ -101,7 +113,7 @@ function App() {
       );
       setAnalysis(null);
       setStatus("idle");
-      pushToast("Analysis failed. Check the backend and try again.", "error");
+      notify("Analysis failed. Check the backend and try again.", "error");
     }
   };
 
@@ -113,19 +125,19 @@ function App() {
     setActiveTab("score");
     setTranscript("");
     setSelectedSample(null);
-    pushToast("Draft discarded.", "warning");
+    notify("Draft discarded.", "warning");
   };
 
   const finalizeAnalysis = () => {
     if (!currentAnalysis) {
       setError("Run an analysis before finalizing it.");
-      pushToast("Run an analysis first.", "warning");
+      notify("Run an analysis first.", "warning");
       return;
     }
 
     setDraftState("finalized");
     setError("");
-    pushToast("Analysis finalized.", "success");
+    notify("Analysis finalized.", "success");
   };
 
   const rubricSnapshot = Array.isArray(rubricData?.rubric?.kpis) ? rubricData.rubric.kpis : [];
@@ -378,9 +390,9 @@ function App() {
                             key={`${currentAnalysis.score.value}-${item.quote}-${index}`}
                             item={item}
                             index={index}
-                            onAccept={() => pushToast("Evidence accepted.", "success")}
-                            onReject={() => pushToast("Evidence rejected.", "warning")}
-                            onEdit={() => pushToast("Evidence edit opened.", "default")}
+                            onAccept={() => notify("Evidence accepted.", "success")}
+                            onReject={() => notify("Evidence rejected.", "warning")}
+                            onEdit={() => notify("Evidence edit opened.", "default")}
                           />
                         ))}
                       </div>
@@ -473,7 +485,17 @@ function App() {
           </div>
         </div>
       </main>
-      <ToastStack toasts={toasts} />
+      <Toaster
+        position="top-center"
+        toastOptions={{
+          duration: 2600,
+          style: {
+            borderRadius: "16px",
+            padding: "12px 16px",
+            fontSize: "14px",
+          },
+        }}
+      />
     </div>
   );
 }
@@ -695,28 +717,6 @@ function GapCard({ gap }) {
         <span className="text-xs font-semibold uppercase tracking-[0.16em] text-rose-700">{gap.dimension}</span>
       </div>
       <p className="mt-2">{gap.detail}</p>
-    </div>
-  );
-}
-
-function ToastStack({ toasts }) {
-  return (
-    <div className="pointer-events-none fixed bottom-4 right-4 z-50 flex w-[min(92vw,360px)] flex-col gap-3">
-      {toasts.map((toast) => (
-        <div
-          key={toast.id}
-          className={`pointer-events-auto rounded-2xl border px-4 py-3 text-sm shadow-[0_18px_45px_rgba(15,23,42,0.16)] backdrop-blur-xl ${toast.tone === "success"
-            ? "border-emerald-200 bg-emerald-50 text-emerald-900"
-            : toast.tone === "warning"
-              ? "border-amber-200 bg-amber-50 text-amber-900"
-              : toast.tone === "error"
-                ? "border-rose-200 bg-rose-50 text-rose-900"
-                : "border-slate-200 bg-white text-slate-700"
-            }`}
-        >
-          {toast.message}
-        </div>
-      ))}
     </div>
   );
 }
